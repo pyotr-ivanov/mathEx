@@ -41,7 +41,7 @@ ptrStdTreeNode_t* ptrStdTreeAppendLow(ptrStdTreeNode_t* target, void* element);
 ptrStdTreeNode_t* ptrStdTreeAppendHigh(ptrStdTreeNode_t* target, void* element);
 
 // free a tree and its elements
-void ptrStdTreeFree(ptrStdTreeNode_t* target, void (*freeElement) (void));
+void ptrStdTreeFree(ptrStdTreeNode_t* target, void (*freeElement) (void*));
 
 // search for a node in a tree
 ptrStdTreeNode_t* ptrStdTreeSearch(ptrStdTreeNode_t* target, void* condition, bool (*compElem) (void*, void*), bool (*isGreater) (void*, void*));
