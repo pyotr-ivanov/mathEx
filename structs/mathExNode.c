@@ -7,11 +7,8 @@ void mathExPrintNode(void* element) {
     if (element == NULL) {
         fprintf(stderr, "NULL");
         return;
-    }
-
-    mathExNode_t* target = element;
-
-    else {
+    } else {
+        mathExNode_t* target = element;
         if (target->nodeType == MATHEX_NODET_NUM) {         // target holds double
             fprintf(stderr, "NUM");
         } else if (target->nodeType == MATHEX_NODET_OP){    // target is operator
