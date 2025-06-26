@@ -3,11 +3,13 @@
 #include "mathExNode.h"
 
 
-void matExPrintNode(mathExNode_t* target) {
-    if (target == NULL) {
+void mathExPrintNode(void* element) {
+    if (element == NULL) {
         fprintf(stderr, "NULL");
         return;
     }
+
+    mathExNode_t* target = element;
 
     else {
         if (target->nodeType == MATHEX_NODET_NUM) {         // target holds double

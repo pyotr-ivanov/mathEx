@@ -11,7 +11,7 @@
 #endif // !MATHEX_COMMON
 
 
-#ifndef MATHEX_NODE
+//#ifndef MATHEX_NODE
 #define MATHEX_NODE 1
 
 
@@ -31,11 +31,11 @@ typedef struct __mathExNode_t {
     double data;                    // constant value
 }mathExNode_t;
 
-void matExPrintNode(mathExNode_t* target);
+void mathExPrintNode(void* element);
 
 mathExNode_t* mathExCreateNode(uint8_t nodeType, uint8_t operation, double data);
 
 void mathExDestroyNode(mathExNode_t* target);
 
-#endif // !MATHEX_NODE
+//#endif // !MATHEX_NODE
 
