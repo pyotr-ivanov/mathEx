@@ -14,13 +14,26 @@
 #ifndef MATHEX_NODE
 #define MATHEX_NODE 1
 
-typedef struct __mathExNode_t {
+
+// types on nodes
+#define MATHEX_NODET_NUM 0
+#define MATHEX_NODET_OP 1
+#define MATHEX_NODET_VAR 2
+
+// operators
+#define MATHEX_OPT_ADD 0
+#define MATHEX_OPT_MULT 2
+
+
+typedef struct GRRRmathExNode_t {
     uint8_t nodeType;               // object type (operation, variable, data)
     uint8_t opType;                 // operation flag (multe, add, etc.)
     double data;                    // constant value
 } mathExNode_t;
 
-mathExNode_t* mathExCreateNode();
+void matExPrintNode(mathExNode_t* target);
+
+mathExNode_t* mathExCreateNode(uint8_t nodeType, uint8_t operation, double data);
 
 void mathExDestroyNode(mathExNode_t* target);
 

@@ -1,3 +1,13 @@
+// just some basic testing
+//
+//
 
+#include "mathExCommon.h"
+#include "structs/ptrStdTree.h"
+#include "structs/mathExNode.h"
 
-// nothing here yet.
+int main(int argc, char *argv[]) {
+
+    fprintf(stderr, "HELLO WORLD\n")
+    return EXIT_SUCCESS;
+}

@@ -25,6 +25,9 @@ typedef struct __ptrStdTree_t {
 // print usefull information about ptrStdTree on stdout
 void ptrStdTreePrintInfo();
 
+// print tree to stderr
+void ptrStdTreePrintTree(ptrStdTreeNode_t* target, void (*printElement) (void*));
+
 // create an empty node
 ptrStdTreeNode_t* ptrStdTreeCreateNode(void* element);
 

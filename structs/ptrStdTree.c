@@ -10,6 +10,33 @@ void ptrStdTreePrintInfo() {
     return;
 }
 
+// print tree to stderr
+void ptrStdTreePrintTreeStep(ptrStdTreeNode_t* target, void (*printElement) (void*)) {
+    if (target == NULL) {
+        fprintf(stderr, "NULL");
+        return;
+    }
+
+    printElement(target->element);
+    fprintf(stderr, "(");
+    ptrStdTreePrintTree(target->child_l);
+    fprintf(stderr, ", ");
+    ptrStdTreePrintTree(target->child_h);
+    fprintf(stderr, ") ");
+    return;
+}
+
+void ptrStdTreePrintTree(ptrStdTreeNode_t* target, void (*printElement) (void*)) {
+    if (printElement == NULL) {
+        fprintf(stderr, "ptrStdTreePrintTree(): exit due to invalid pointer.\n");
+        exit(EINVAL);
+    }
+
+    fprintf(stderr, "ptrStdTreePrintTree(): \n");
+    ptrStdTreePrintTreeStep(target, printElement);
+    fprintf(stderr, "\n");
+}
+
 // create an empty node
 ptrStdTreeNode_t* ptrStdTreeCreateNode(void * element) {
     if (element == NULL) {
