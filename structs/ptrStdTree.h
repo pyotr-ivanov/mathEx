@@ -20,7 +20,7 @@ typedef struct __ptrStdTree_t {
     struct __ptrStdTree_t* child_l;
     struct __ptrStdTree_t* child_h;
     int8_t depth;
-} ptrStdTreeNode_t, ptrStdAvlNode_t;
+} ptrStdTreeNode_t;
 
 // print usefull information about ptrStdTree on stdout
 void ptrStdTreePrintInfo();
@@ -59,4 +59,4 @@ ptrStdTreeNode_t* ptrStdTreeGetHighest(ptrStdTreeNode_t* target);
 ptrStdTreeNode_t* ptrStdTreeRemove(ptrStdTreeNode_t* target);
 
 // search for an element in the tree, return its content and remove its node from the tree
-void* ptrStdTreeExtract(ptrStdTreeNode_t* target, void* condition, bool (*compElem) (void*, void*), bool (*isGreater) (void*, void*))
+void* ptrStdTreeExtract(ptrStdTreeNode_t* target, void* condition, bool (*compElem) (void*, void*), bool (*isGreater) (void*, void*));

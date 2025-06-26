@@ -25,11 +25,11 @@
 #define MATHEX_OPT_MULT 2
 
 
-typedef struct GRRRmathExNode_t {
+typedef struct __mathExNode_t {
     uint8_t nodeType;               // object type (operation, variable, data)
-    uint8_t opType;                 // operation flag (multe, add, etc.)
+    uint8_t opType;                 // operation flag (mult, add, etc.)
     double data;                    // constant value
-} mathExNode_t;
+}mathExNode_t;
 
 void matExPrintNode(mathExNode_t* target);
 
