@@ -13,7 +13,7 @@ void ptrStdTreePrintInfo() {
 // print tree to stderr
 void ptrStdTreePrintTreeStep(ptrStdTreeNode_t* target, void (*printElement) (void*)) {
     if (target == NULL) {
-        fprintf(stderr, "NULL");
+        fprintf(stderr, "*");
         return;
     }
 
@@ -22,7 +22,7 @@ void ptrStdTreePrintTreeStep(ptrStdTreeNode_t* target, void (*printElement) (voi
     ptrStdTreePrintTreeStep(target->child_l, printElement);
     fprintf(stderr, ", ");
     ptrStdTreePrintTreeStep(target->child_h, printElement);
-    fprintf(stderr, ") ");
+    fprintf(stderr, ")");
     return;
 }
 
@@ -163,7 +163,7 @@ ptrStdTreeNode_t* ptrStdTreeGetHighest(ptrStdTreeNode_t* target) {
 
     if (target->child_h == NULL) {
         return target;
-    } else return ptrStdTreeGetLowest(target->child_h);
+    } else return ptrStdTreeGetHighest(target->child_h);
 }
 
 // remove a node from a tree
@@ -191,11 +191,19 @@ ptrStdTreeNode_t* ptrStdTreeRemove(ptrStdTreeNode_t* target) {
    if (replacement != NULL) replacement->parent = target->parent;
    if (target->parent != NULL && target == target->parent->child_l) {   // target is child_l on parent
        target->parent->child_l = replacement;
+       free(target);
    } else if (target->parent != NULL){                                // target is child_h on parent
        target->parent->child_h = replacement;
+       free(target);
+   } else {                                                           // removed node is root of tree ==> copy replacement into parent, free old replacement node
+        ptrStdTreeNode_t* override = replacement;
+        target->element = override->element;
+        target->child_l = override->child_l;
+        target->child_h = override->child_h;
+        replacement = target;
+        free(override);
    }
 
-   free(target);
    return replacement;
 }
 
@@ -207,6 +215,11 @@ void* ptrStdTreeExtract(ptrStdTreeNode_t* target, void* condition, bool (*compEl
     }
 
     ptrStdTreeNode_t* object = ptrStdTreeSearch(target, condition, compElem, isGreater);
+
+    if (object == NULL) {
+        return NULL;
+    }
+
     void * content = ptrStdTreeGetContent(object);
     ptrStdTreeRemove(object);
     return content;
