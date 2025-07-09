@@ -30,15 +30,11 @@ void mathExPrintNode(void* element) {
 bool mathExResolvePriority(mathExNode_t* new, mathExNode_t* comp) {
     if (new == NULL || comp == NULL) {
         return true;
-    }
-
-    if (new->depth > comp->depth) {             // new is in parantheses with a higher depth than comp
-        return true;
-    } else if (new->depth < comp->depth) {      // comp is in parantheses with a higher depth than new
-        return false;
-    } else {                                    // both nodes have the same depth --> priority is based on presedence
-        if (new->nodeType != MATHEX_NODET_OP) { // new is not an operator and must have priority 
+    } else {                                            // both nodes have the same depth --> priority is based on presedence
+        if (new->nodeType != MATHEX_NODET_OP) {         // new is not an operator and must have priority 
             return true;
+        } else if (comp->nodeType != MATHEX_NODET_OP) { // comp is not an operator --> new can't have priority
+            return false;
         } else if ((new->opType == MATHEX_OPT_MUL || new->opType == MATHEX_OPT_DIV) && (comp->opType == MATHEX_OPT_ADD || comp->opType == MATHEX_OPT_SUB)) {
             return true;
         } else if (new->opType == MATHEX_OPT_POT && comp->opType != MATHEX_OPT_POT) {
