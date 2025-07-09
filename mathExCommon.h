@@ -8,5 +8,6 @@
 #include <string.h>
 #include <stdint.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #endif // !MATEX_COMMON

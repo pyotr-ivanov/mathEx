@@ -14,7 +14,7 @@ void mathExPrintNode(void* element) {
         } else if (target->nodeType == MATHEX_NODET_OP){    // target is operator
             if (target->opType == MATHEX_OPT_ADD) {
                 fprintf(stderr, "ADD");
-            } else if (target->opType == MATHEX_OPT_MULT){
+            } else if (target->opType == MATHEX_OPT_MUL){
                 fprintf(stderr, "MUL");
             } else {
                 fprintf(stderr, "INV");
@@ -25,7 +25,30 @@ void mathExPrintNode(void* element) {
     }
 }
 
-mathExNode_t* mathExCreateNode(uint8_t nodeType, uint8_t operation, double data) {
+
+// resolve presedence conflicts between two nodes (returns ture when new has priority over comp)
+bool mathExResolvePriority(mathExNode_t* new, mathExNode_t* comp) {
+    if (new == NULL || comp == NULL) {
+        return true;
+    }
+
+    if (new->depth > comp->depth) {             // new is in parantheses with a higher depth than comp
+        return true;
+    } else if (new->depth < comp->depth) {      // comp is in parantheses with a higher depth than new
+        return false;
+    } else {                                    // both nodes have the same depth --> priority is based on presedence
+        if (new->nodeType != MATHEX_NODET_OP) { // new is not an operator and must have priority 
+            return true;
+        } else if ((new->opType == MATHEX_OPT_MUL || new->opType == MATHEX_OPT_DIV) && (comp->opType == MATHEX_OPT_ADD || comp->opType == MATHEX_OPT_SUB)) {
+            return true;
+        } else if (new->opType == MATHEX_OPT_POT && comp->opType != MATHEX_OPT_POT) {
+            return true;
+        } else return false;
+    }
+}
+
+
+mathExNode_t* mathExCreateNode(uint8_t nodeType, uint8_t operation, double data, uint8_t depth) {
     mathExNode_t* new = calloc(1, sizeof(mathExNode_t));
     if (new == NULL) {
         exit(ENOMEM);
@@ -34,6 +57,8 @@ mathExNode_t* mathExCreateNode(uint8_t nodeType, uint8_t operation, double data)
     new->nodeType = nodeType;
     new->opType = operation;
     new->data = data;
+    new->depth = depth;
+
     return new;
 }
 
