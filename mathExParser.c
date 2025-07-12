@@ -24,7 +24,11 @@ mathExAgent_t* mathExInit() {
 ptrStdTreeNode_t* mathExBuildTree(mathExAgent_t* parser, char* expression, size_t expLen) {
     if (parser == NULL) {
         return NULL;
+    } else if (parser->clean == false) {
+        return parser;
     }
+    parser->expression = expression;
+    parser->expLen = expLen;
 
 
 }
