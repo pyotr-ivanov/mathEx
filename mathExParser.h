@@ -13,7 +13,7 @@ typedef struct __mathExAgent{
     bool opFlag;
     bool clean;
     char vars[255];
-    uint8_t vars_len;
+    uint8_t varLen;
     uint8_t depth;
 }mathExAgent_t
 

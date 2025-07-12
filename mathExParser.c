@@ -35,6 +35,65 @@ void mathExAddNode(mathExAgent_t* parser, uint8_t type, uint8_t operation, doubl
 }
 
 
+void mathExParseVar(mathExAgent_t* parser, size_t pos) {
+    if (parser == NULL || pos >= parser->expLen) {
+        return;
+    }
+
+    char comp = *(parser->expression + pos);
+    uint8_t i = 0;
+
+    while (i < parser->varLen) {
+        if (parser->vars[i] == comp) {
+            break;
+        }
+
+        i++;
+    }
+
+    if (i == parser->varLen) {
+        parser->vars[i] = comp;
+        parser->varLen++;
+    }
+
+    mathExAddNode(parser, MATHEX_NODET_VAR, i, 0.0);
+    return;
+}
+
+
+size_t mathExParseVal(mathExAgent_t* parser, size_t pos) {
+    if (parser == NULL || pos >= parser->expLen) {
+        return 0;
+    }
+
+    double data = 0.0;
+    size_t i = 0;
+
+    while (isdigit(parser->expression + pos + i)) {
+        data = data * 10;
+        data = data + (*(parser->expression + pos + i) - '0');
+        i++;
+    }
+
+    if (*(parser->expression + pos + i) == '.' || *(parser->expression + pos + i) == 'i') {
+        i++
+        size_t j = 1;
+        double mantissa = 0.0;
+
+        while (isdigit(parser->expression + pos + i)) {
+            mantissa = mantissa + (*(parser->expression + pos + i) * 10**(-j));
+            j++;
+            i++;
+        }
+
+        data = data + mantissa;
+    }
+
+    mathExAddNode(parser, MATHEX_NODET_NUM, 0, data);
+    return i;
+}
+
+
 ptrStdTreeNode_t* mathExBuildTree(mathExAgent_t* parser, char* expression, size_t expLen) {
     if (parser == NULL) {
         return NULL;
@@ -74,10 +133,10 @@ ptrStdTreeNode_t* mathExBuildTree(mathExAgent_t* parser, char* expression, size_
             mathExAddNode(parser, MATHEX_NODET_OP, MATHEX_OPT_DIV);
 
         } else if (isalpha(parser->expression + i) != 0) {
-            // TODO:: Add logic for variables
+            mathExParseVar(parser, i);
 
         } else if (isdigit(parser->expression + i) != 0) {
-            // TODO:: Add logic for parsing values
+            i = i + mathExParseVal(parser, i);
 
         } else {
             i++;
